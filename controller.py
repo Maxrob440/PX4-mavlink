@@ -187,11 +187,12 @@ controller = Controller()
 controller.arm()
 time.sleep(1)
 controller.takeOff(5)
-controller.moveTo(10,10,5)
-controller.createSectorSearch(10,10,5)
-for x in range(25):
-    controller.nextSectorSearch()
-# controller.createExpandingBox(20,20,5,45)
+x,y,z=-100,750,10
+controller.moveTo(x,y,z)
+# controller.createSectorSearch(x,y,z)
 # for x in range(25):
-#     controller.expandingExpandingBox()
+#     controller.nextSectorSearch()
+controller.createExpandingBox(x,y,z,45)
+for x in range(25):
+    controller.expandingExpandingBox()
 controller.setRTL()

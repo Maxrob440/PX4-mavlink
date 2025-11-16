@@ -8,7 +8,7 @@ class SectorSearch:
         self.currentY=y
         self.currentZ=z
         self.currentAngle =0
-        self.searchRadius=50
+        self.searchRadius=400
         self.sectorCount = 0
         self.rotationCount=0
 

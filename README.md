@@ -30,3 +30,5 @@ A sector search divides the area around a datum into equal angular sectors. The 
 
 ### References
 Search pattern definitions and descriptions are based on the methods described in: https://owaysonline.com/iamsar-search-patterns/
+
+Images taken from the International Aeronautical and Maritime Search and Rescue Manual — Volume III: Mobile Facilities: https://maritimesafetyinnovationlab.org/wp-content/uploads/2021/02/Doc.9731-EN-IAMSAR-Manual-International-Aeronautical-and-Maritime-Search-and-Rescue-Manual-Volume-III-Mobile-Facilities.pdf
