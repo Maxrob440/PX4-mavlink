@@ -5,8 +5,7 @@ import time
 class Controller:
     def __init__(self):
         self.master = mavutil.mavlink_connection("udp:127.0.0.1:14540")
-        self.expandingBox = None
-        self.sectorSearch = None
+        self.searchPattern= None
         print("Waiting for heartbeat...")
 
         #Connect to correct instance - avoids connecting to QGroundControl
@@ -57,7 +56,7 @@ class Controller:
                 blocking=True,
                 timeout=5)
             if response.z<-2:
-                print('height reached')
+                print('Target height reached...')
                 break
 
     def getHeartBeat(self,debug:str=''):
@@ -167,32 +166,16 @@ class Controller:
         if (hb.custom_mode >>24)&0xFF!=sub_mode:
             print("Error setting sub mode")    
     def createExpandingBox(self,x,y,z,direction=0):
-        self.expandingBox = ExpandingBox(x,y,z,direction)
+        print("Created Expanding box Search Pattern")
+        self.searchPattern= ExpandingBox(x,y,z,direction)
 
-    def expandingExpandingBox(self):
-        if not self.expandingBox:
-            print("Expanding box has not been created... ")
-        x,y,z = self.expandingBox.step()
-        self.moveTo(x,y,z)
     
     def createSectorSearch(self,x,y,z):
-        self.sectorSearch=SectorSearch(x,y,z)
+        print("Created Sector Search Pattern")
+        self.searchPattern=SectorSearch(x,y,z)
 
-    def nextSectorSearch(self):
-        if not self.sectorSearch:
-            print("Sector Search hasn't been created yet... ")
-        x,y,z=self.sectorSearch.step()
+    def patternStep(self):
+        if not self.searchPattern:
+            print("Search pattern hasn't been created yet... ")
+        x,y,z=self.searchPattern.step()
         self.moveTo(x,y,z)
-controller = Controller()
-controller.arm()
-time.sleep(1)
-controller.takeOff(5)
-x,y,z=-100,750,10
-controller.moveTo(x,y,z)
-# controller.createSectorSearch(x,y,z)
-# for x in range(25):
-#     controller.nextSectorSearch()
-controller.createExpandingBox(x,y,z,45)
-for x in range(25):
-    controller.expandingExpandingBox()
-controller.setRTL()
