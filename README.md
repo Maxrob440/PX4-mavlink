@@ -28,6 +28,7 @@ An expanding box search covers an area by flying a square pattern that increases
 A sector search divides the area around a datum into equal angular sectors. The UAV flies out and back along each sector, providing repeated passes over the highest-probability location.  
 ### Paralell Sweep
 ![Paralell Sweep](readmePictures/sweepSearch.png)
+
 A Paralell sweep search is used when the area to be surveyed is very large due to location being uncertain
 
 
