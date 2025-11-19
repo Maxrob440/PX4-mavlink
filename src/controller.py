@@ -1,7 +1,7 @@
 from pymavlink import mavutil
 from expandingBox import ExpandingBox
 from sectorSearch import SectorSearch
-
+from paralellSweep import ParalellSweep
 
 class Controller:
     def __init__(self):
@@ -208,9 +208,14 @@ class Controller:
         print("Created Sector Search Pattern")
         self.searchPattern=SectorSearch(x,y,z)
 
+    def createParalellSweepSearch(self,x,y,z):
+        print("Created Paralell Sweep Pattern ")
+        self.searchPattern=ParalellSweep(x,y,z)
     def patternStep(self):
         if not self.searchPattern:
             print("Search pattern hasn't been created yet... ")
+        print(type(self.searchPattern))
         x,y,z=self.searchPattern.step()
+        print(x,y,z)
         self.moveTo(x,y,z)
 

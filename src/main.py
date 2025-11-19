@@ -22,10 +22,10 @@ def main():
     controller.arm()
     input("Press enter to take off...")
     controller.takeOff(5)
-    patterns=["EB","SS","FF"]
+    patterns=["EB","SS","PS","FF"]
     pattern = ''
     while pattern.upper() not in patterns:
-        pattern = input("Enter search pattern: 'EB': expanding box, 'SS': Sector seach, 'FF': Free flight: ")
+        pattern = input("Enter search pattern: 'EB': expanding box, 'SS': Sector seach, 'PS': Paralell Sweep, 'FF': Free flight: ")
     x,y,z=coordinateInput()
     controller.moveTo(x,y,z)
     controller.beginTakePhoto()
@@ -33,6 +33,8 @@ def main():
         controller.createExpandingBox(x,y,z,45)
     elif pattern == "SS":
         controller.createSectorSearch(x,y,z)
+    elif pattern == "PS":
+        controller.createParalellSweepSearch(x,y,z)
     else:
         while True:
             x,y,z=coordinateInput()
