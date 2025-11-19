@@ -1,14 +1,15 @@
 from pymavlink import mavutil
 from expandingBox import ExpandingBox
 from sectorSearch import SectorSearch
-import time
+
+
 class Controller:
     def __init__(self):
         self.master = mavutil.mavlink_connection("udp:127.0.0.1:14540")
         self.searchPattern= None
         print("Waiting for heartbeat...")
 
-        #Connect to correct instance - avoids connecting to QGroundControl
+        # Connect to correct instance - avoids connecting to QGroundControl
         while True:
             hb = self.master.recv_match(type='HEARTBEAT', blocking=True, timeout=5)
             if hb is None:
@@ -18,16 +19,16 @@ class Controller:
             sysid = hb.get_srcSystem()
             compid = hb.get_srcComponent()
             print(f"Heartbeat from sysid={sysid}, compid={compid}, type={hb.type}")
-            if sysid == 1:     
+            if sysid == 1:
                 print("CONNECTED to PX4")
                 break
         self.displayHeartBeat(hb)
     
     def arm(self):
         self.master.mav.command_long_send(
-            self.master.target_system,
-            self.master.target_component,
-            mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
+            self.master.target_system, 
+            self.master.target_component, 
+            mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 
             0,
             1, 0, 0, 0, 0, 0, 0  # param1 = 1 → arm
         )
@@ -40,12 +41,12 @@ class Controller:
 
     def takeOff(self,alt:int):
         self.master.mav.command_long_send(
-            self.master.target_system,
-            self.master.target_component,
-            mavutil.mavlink.MAV_CMD_NAV_TAKEOFF,
-            0,
-            0,0,0,0,
-            float('nan'),float('nan'),
+            self.master.target_system, 
+            self.master.target_component, 
+            mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 
+            0, 
+            0, 0, 0, 0, 
+            float('nan'), float('nan'), 
             alt
         )
         response=self.getAck()
@@ -54,8 +55,8 @@ class Controller:
         print("Waiting to reach 2m...")
         while(True):
             response = self.master.recv_match(
-                type="LOCAL_POSITION_NED",
-                blocking=True,
+                type="LOCAL_POSITION_NED", 
+                blocking=True, 
                 timeout=5)
             if response.z<-2:
                 print('Target height reached...')
