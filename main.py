@@ -28,6 +28,7 @@ def main():
         pattern = input("Enter search pattern: 'EB': expanding box, 'SS': Sector seach, 'FF': Free flight: ")
     x,y,z=coordinateInput()
     controller.moveTo(x,y,z)
+    controller.beginTakePhoto()
     if pattern == "EB":
         controller.createExpandingBox(x,y,z,45)
     elif pattern == "SS":

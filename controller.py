@@ -32,7 +32,8 @@ class Controller:
             1, 0, 0, 0, 0, 0, 0  # param1 = 1 → arm
         )
         print("Arming...")
-        response = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
+        response = self.getAck()
+        # response = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
         if response.result ==1:
             raise Exception("Failed to arm")
         print(response)
@@ -47,7 +48,8 @@ class Controller:
             float('nan'),float('nan'),
             alt
         )
-        response = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
+        response=self.getAck()
+        # response = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
         print(response)
         print("Waiting to reach 2m...")
         while(True):
@@ -72,7 +74,6 @@ class Controller:
                 break
         self.displayHeartBeat(hb,debug)
         return hb
-
     def displayHeartBeat(self,hb,debug:str=''):
         final = f"{debug}Heartbeat -> "
         if hb.type ==2:
@@ -91,6 +92,17 @@ class Controller:
         final+=f", Custom mode : {(hb.custom_mode>>16)&0xFF}"
         final+=f".{(hb.custom_mode>>24)&0xFF}"
         print(final)
+
+    def getAck(self,debug:str=''):
+        ack = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
+        self.displayAck(ack,debug)
+        return ack
+
+    def displayAck(self,ack,debug:str=''):
+        final = f'{debug} ACK -> '
+        final+=f'Command: {ack.command}'
+        final+=f', Result: {ack.result}'
+        print (final)
 
     def moveTo(self,x:float,y:float,z:float):
         hb=self.getHeartBeat()
@@ -149,6 +161,27 @@ class Controller:
     
     def setRTL(self):
         self.setMode(4,5)
+    
+    def beginTakePhoto(self):
+        print("Taking Photo...")
+        self.master.mav.command_long_send(
+            self.master.target_system,
+            self.master.target_component,
+            mavutil.mavlink.MAV_CMD_DO_DIGICAM_CONTROL,
+            0,
+            0,0,0,0,
+            1,
+            0,
+            0
+        )
+        self.getAck()
+        msg=self.master.recv_match(
+            type=["CAMERA_TRIGGER","CAMERA_IMAGE_CAPTURED"],
+            blocking=True,
+            timeout=5
+        )
+        print(msg)
+
 
     def setMode(self,main_mode,sub_mode):
         custom_mode = (sub_mode << 24) | (main_mode << 16)
@@ -179,3 +212,4 @@ class Controller:
             print("Search pattern hasn't been created yet... ")
         x,y,z=self.searchPattern.step()
         self.moveTo(x,y,z)
+
