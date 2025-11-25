@@ -31,7 +31,7 @@ A sector search divides the area around a datum into equal angular sectors. The 
 
 A Paralell sweep search is used when the area to be surveyed is very large due to location being uncertain<br>
 ### Example flight
-Link available showing a flight [Youtube][https://youtu.be/IRbg3JopvWE]
+Link available showing a flight [Youtube](https://youtu.be/IRbg3JopvWE)
 
 
 ### References
