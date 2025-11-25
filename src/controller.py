@@ -90,7 +90,6 @@ class Controller:
 
         final+=f", Custom mode : {(hb.custom_mode>>16)&0xFF}"
         final+=f".{(hb.custom_mode>>24)&0xFF}"
-        print(final)
 
     def getAck(self,debug:str=''):
         ack = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
@@ -101,7 +100,6 @@ class Controller:
         final = f'{debug} ACK -> '
         final+=f'Command: {ack.command}'
         final+=f', Result: {ack.result}'
-        print (final)
 
     def moveTo(self,x:float,y:float,z:float):
         hb=self.getHeartBeat()
@@ -209,11 +207,10 @@ class Controller:
     def createParalellSweepSearch(self,x,y,z):
         print("Created Paralell Sweep Pattern ")
         self.searchPattern=ParalellSweep(x,y,z)
+
     def patternStep(self):
         if not self.searchPattern:
             print("Search pattern hasn't been created yet... ")
-        print(type(self.searchPattern))
         x,y,z=self.searchPattern.step()
-        print(x,y,z)
         self.moveTo(x,y,z)
 

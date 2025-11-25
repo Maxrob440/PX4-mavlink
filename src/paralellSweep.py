@@ -15,9 +15,6 @@ class ParalellSweep:
         self.initial=True
     
     def step(self):
-        print(self.currentX)
-        print(self.initialX+self.maxX)
-        print(self.movedDown)
         if self.initial:
             self.initial=False
             self.currentX=self.initialX+self.maxX
