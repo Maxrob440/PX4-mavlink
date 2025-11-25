@@ -37,7 +37,6 @@ class Controller:
         # response = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
         if response.result ==1:
             raise Exception("Failed to arm")
-        print(response)
 
     def takeOff(self,alt:int):
         self.master.mav.command_long_send(
@@ -51,7 +50,6 @@ class Controller:
         )
         response=self.getAck()
         # response = self.master.recv_match(type="COMMAND_ACK",blocking=True,timeout=5)
-        print(response)
         print("Waiting to reach 2m...")
         while(True):
             response = self.master.recv_match(
