@@ -1,5 +1,8 @@
 # Search and Rescue simulations
 This project uses PX4 SITL together with the MAVLink 2 communication protocol to simulate and evaluate search-and-rescue flight patterns for multicopter UAVs. The system generates autonomous waypoints and executes sector searches, expanding patterns, and other SAR-relevant geometries within a fully simulated PX4 environment.
+### Motivation
+As a sailor and windsurfer, I place a lot of faith in emergency services if anything was to go wrong. In emergencies the RNLI crew first needs to get to the station (~10 minutes), with more time then required to reach the location. This project was created to explore the utilisation of multiple UAVs positioned around the coast that can launch almost instantly, giving fast eyes on the situation and even delivering small aid items while rescue teams are on their way. 
+
 ## Pre-requisties
 - QGroundControl installed and running
 - PX4 SITL configured with a single multicopter airframe
